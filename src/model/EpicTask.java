@@ -1,3 +1,7 @@
+package model;
+
+import manager.Manager;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -10,7 +14,7 @@ public class EpicTask extends Task {
     /**
      * Конструктор для создания Epic задач
      */
-    EpicTask(String nameEpicTask, String descriptionEpicTask, ArrayList<SubTask> subTasks) {
+    public EpicTask(String nameEpicTask, String descriptionEpicTask, ArrayList<SubTask> subTasks) {
         super(nameEpicTask, descriptionEpicTask);
         this.setStatus(Manager.getEpicTaskStatus(subTasks)); // 4. Метод для управления статусом для эпик задач.
         this.subTasks = subTasks;
@@ -19,14 +23,14 @@ public class EpicTask extends Task {
     /**
      * Конструктор для копирования Epic задач
      */
-    EpicTask(EpicTask epicTask) {
+    public EpicTask(EpicTask epicTask) {
         this(epicTask.getName(), epicTask.getDescription(), epicTask.subTasks);
     }
 
     /**
      * get метод
      */
-    ArrayList<SubTask> getSubTasks() {
+    public ArrayList<SubTask> getSubTasks() {
         return subTasks;
     }
 

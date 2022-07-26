@@ -1,16 +1,19 @@
+package model;
+
+import manager.Manager;
+
 public class Task {
     /**
-     * Класс для создания Task задач
+     * Класс для создания model.Task задач
      */
-    private final int id;
+    private int id;
     private String name;
     private String description;
     private String status;
-
     /**
-     * Конструктор для создания Task задач
+     * Конструктор для создания model.Task задач
      */
-    Task(String nameTask, String descriptionTask, String statusTask) {
+    public Task(String nameTask, String descriptionTask, String statusTask) {
         this.id = Manager.getId() + 1;
         Manager.setId(this.id);
         this.name = nameTask;
@@ -19,7 +22,7 @@ public class Task {
     }
 
     /**
-     * Конструктор для создания задач наследников Epic задач и SubTask подзадач
+     * Конструктор для создания задач наследников Epic задач и model.SubTask подзадач
      */
     Task(String nameTask, String descriptionTask) {
         this.id = Manager.getId() + 1;
@@ -29,9 +32,9 @@ public class Task {
     }
 
     /**
-     * Конструктор для копирования Task задач
+     * Конструктор для копирования model.Task задач
      */
-    Task(Task task) {
+    public Task(Task task) {
         this(task.name, task.description, task.status);
     }
 
@@ -41,26 +44,32 @@ public class Task {
     int getId() {
         return id;
     }
-
+    public void setName(String name) {
+        this.name = name;
+    }
     String getName() {
         return name;
     }
-
+    public void setId(int id) {
+        this.id = id;
+    }
     String getDescription() {
         return description;
     }
 
-    String getStatus() {
+    public String getStatus() {
         return status;
     }
-
+    public void setDescription(String description) {
+        this.description = description;
+    }
     void setStatus(String status) {
         this.status = status;
     }
 
     @Override
     public String toString() {
-        return "ID задачи Task=\"" + id + "\", Название задачи=\"" + name + "\", Описание=\"" + description
+        return "ID задачи model.Task=\"" + id + "\", Название задачи=\"" + name + "\", Описание=\"" + description
                 + "\", Статус=\"" + status + "\"";
     }
 }
