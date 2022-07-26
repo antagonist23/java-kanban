@@ -1,3 +1,8 @@
+import manager.Manager;
+import model.EpicTask;
+import model.SubTask;
+import model.Task;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -11,12 +16,12 @@ public class Main {
  */
         Manager manager = new Manager();
 /**
- * Создали 2е Task задачи
+ * Создали 2е model.Task задачи
  */
         Task taskFirst = new Task("Поесть", "Принять пищу", "NEW");
         Task taskSecond = new Task("Поспать", "Хорошенько выспаться", "DONE");
 /**
- * Создали 1у EpicTask задачу с 2мя SubTask подзадачами
+ * Создали 1у model.EpicTask задачу с 2мя model.SubTask подзадачами
  */
         ArrayList<SubTask> subTasksEpicTaskFirst = new ArrayList<>();
         SubTask subtaskFirstEpicTaskFirst = new SubTask("Закончить учебу",
@@ -30,7 +35,7 @@ public class Main {
         EpicTask epicTaskFirst = new EpicTask("Закончить учебу",
                 "Получить сертификат обучения", subTasksEpicTaskFirst);
 /**
- * Создали 2ю EpicTask задачу с 1й SubTask подзадачей
+ * Создали 2ю model.EpicTask задачу с 1й model.SubTask подзадачей
  */
         SubTask subtaskFirstEpicTaskSecond = new SubTask("Сменить работу",
                 "Закончить курс по Java", "Научиться программировать на языке Java",
@@ -52,7 +57,7 @@ public class Main {
         manager.saveSubTaskToStorage(subtaskFirstEpicTaskSecond);
         manager.saveEpicTaskToStorage(epicTaskSecond);
 /**
- * 2. Методы для каждого из типа задач(Task/EpicTask/SubTask):
+ * 2. Методы для каждого из типа задач(model.Task/model.EpicTask/model.SubTask):
  *  2.1 Получение списка всех задач;
  */
         System.out.println("\n    2.1 Получение списка всех задач:");
@@ -62,7 +67,7 @@ public class Main {
 /**
  *  2.2 Удаление всех задач;
  */
-        manager.deleteAllEpicTasks(manager.getEpicTaskStorage());
+        manager.deleteAllEpicTasks(manager.getEpicTaskStorage(),manager.getSubTaskStorage());
 
         System.out.println("\n    2.2 Удаление всех задач:");
         System.out.println(Arrays.toString(manager.getCompleteListOfAnyTask(manager.getTaskStorage()).toArray()));
