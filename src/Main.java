@@ -64,15 +64,7 @@ public class Main {
         System.out.println(Arrays.toString(manager.getCompleteListOfAnyTask(manager.getTaskStorage()).toArray()));
         System.out.println(Arrays.toString(manager.getCompleteListOfAnyEpicTasks(manager.getEpicTaskStorage()).toArray()));
         System.out.println(Arrays.toString(manager.getCompleteListOfAnySubTask(manager.getSubTaskStorage()).toArray()));
-/**
- *  2.2 Удаление всех задач;
- */
-        manager.deleteAllEpicTasks(manager.getEpicTaskStorage(),manager.getSubTaskStorage());
 
-        System.out.println("\n    2.2 Удаление всех задач:");
-        System.out.println(Arrays.toString(manager.getCompleteListOfAnyTask(manager.getTaskStorage()).toArray()));
-        System.out.println(Arrays.toString(manager.getCompleteListOfAnyEpicTasks(manager.getEpicTaskStorage()).toArray()));
-        System.out.println(Arrays.toString(manager.getCompleteListOfAnySubTask(manager.getSubTaskStorage()).toArray()));
 /**
  *  2.3 Получение по идентификатору;
  */
@@ -117,5 +109,14 @@ public class Main {
         System.out.println("\n    3.1 Получение списка всех подзадач определённого эпика:");
         System.out.println(manager.getCompleteListOfSubTaskByEpicTask(epicTaskFirst));
         System.out.println(manager.getCompleteListOfSubTaskByEpicTask(epicTaskSecond));
+  /**
+   *  2.2 Удаление всех задач;
+   */
+        manager.deleteAllEpicTasks(manager.getEpicTaskStorage(), manager.getSubTaskStorage());
+
+        System.out.println("\n    2.2 Удаление всех задач:");
+        System.out.println(Arrays.toString(manager.getCompleteListOfAnyTask(manager.getTaskStorage()).toArray()));
+        System.out.println(Arrays.toString(manager.getCompleteListOfAnyEpicTasks(manager.getEpicTaskStorage()).toArray()));
+        System.out.println(Arrays.toString(manager.getCompleteListOfAnySubTask(manager.getSubTaskStorage()).toArray()));
     }
 }
