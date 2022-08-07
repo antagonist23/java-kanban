@@ -1,40 +1,66 @@
 package model;
 
+import java.util.Objects;
+
 public class SubTask extends Task {
+    private Epic epic;
 
-    private String nameEpicTask;
-
-    /**
-     * Конструктор внутреннего класса для создания model.SubTask подзадач Epic задач
-     */
-    public SubTask(String nameEpicTask, String nameSubTask, String descriptionSubTask, String statusSubTask) {
-        super(nameSubTask, descriptionSubTask, statusSubTask);
-        this.nameEpicTask = nameEpicTask;
+    public SubTask(String name, String description, Epic epic) { // Конструктор для создания подзадачи
+        super(name, description);
+        this.epic = epic;
     }
 
-    /**
-     * Конструктор для копирования model.SubTask подзадач Epic задач
-     */
-    public SubTask(SubTask subtask) {
-        this(subtask.nameEpicTask, subtask.getName(), subtask.getDescription(), subtask.getStatus());
-    }
-    /**
-     * Сеттер и геттер
-     */
-    public String getNameEpicTask() {
-        return nameEpicTask;
+    public Epic getEpic() {
+        return epic;
     }
 
-    public void setNameEpicTask(String nameEpicTask) {
-        this.nameEpicTask = nameEpicTask;
+    public void setEpic(Epic epic) {
+        this.epic = epic;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 17;
+        if (super.getId() != 0) {
+            hash = hash + super.getId().hashCode();
+        }
+        hash = hash * 31;
+
+        if (super.getName() != null) {
+            hash = hash + super.getName().hashCode();
+        }
+        hash = hash * 31;
+
+        if (super.getDescription() != null) {
+            hash = hash + super.getDescription().hashCode();
+        }
+        hash = hash * 31;
+
+        if (super.getStatus() != null) {
+            hash = hash + super.getStatus().hashCode();
+        }
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        SubTask subTask = (SubTask) obj;
+        return Objects.equals(super.getId(), subTask.getId()) &&
+                Objects.equals(super.getName(), subTask.getName()) &&
+                Objects.equals(super.getDescription(), subTask.getDescription()) &&
+                Objects.equals(super.getStatus(), subTask.getStatus());
+    }
+
     @Override
     public String toString() {
-        return "ID подзадачи model.SubTask=\"" + getId() + "\", Название Epic задачи=\"" + nameEpicTask
-                + "\", Название подзадачи=\"" + getName() + "\", Описание=\"" + getDescription() + "\", Статус=\"" + getStatus()
-                + "\"";
+        return "Подзадача{" +
+                "Название подзадачи='" + super.getName() + '\'' +
+                ", Описание подзадачи='" + super.getDescription() + '\'' +
+                ", Статус подзадачи=" + super.getStatus() +
+                ", ID подзадачи=" + super.getId() +
+                ", Входит в эпик='" + epic.getName() + '\'' +
+                '}';
     }
 }
-
-
-

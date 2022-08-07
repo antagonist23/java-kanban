@@ -1,75 +1,93 @@
 package model;
 
-import manager.Manager;
+import java.util.Objects;
 
 public class Task {
-    /**
-     * Класс для создания model.Task задач
-     */
-    private int id;
+    private Integer id;
     private String name;
     private String description;
-    private String status;
-    /**
-     * Конструктор для создания model.Task задач
-     */
-    public Task(String nameTask, String descriptionTask, String statusTask) {
-        this.id = Manager.getId() + 1;
-        Manager.setId(this.id);
-        this.name = nameTask;
-        this.description = descriptionTask;
-        this.status = statusTask;
+    private TaskStatus status;
+
+    public Task(String name, String description) {
+        this.name = name;
+        this.description = description;
+        this.status = TaskStatus.NEW;
     }
 
-    /**
-     * Конструктор для создания задач наследников Epic задач и model.SubTask подзадач
-     */
-    Task(String nameTask, String descriptionTask) {
-        this.id = Manager.getId() + 1;
-        Manager.setId(this.id);
-        this.name = nameTask;
-        this.description = descriptionTask;
+    public Task(Integer id, String name, String description) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
     }
 
-    /**
-     * Конструктор для копирования model.Task задач
-     */
-    public Task(Task task) {
-        this(task.name, task.description, task.status);
-    }
-
-    /**
-     * get и set методы
-     */
-    int getId() {
+    public Integer getId() {
         return id;
     }
-    public void setName(String name) {
-        this.name = name;
-    }
-    String getName() {
-        return name;
-    }
-    public void setId(int id) {
+
+    public void setId(Integer id) {
         this.id = id;
     }
-    String getDescription() {
+
+    public TaskStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(TaskStatus status) {
+        this.status = status;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
         return description;
     }
 
-    public String getStatus() {
-        return status;
+    @Override
+    public int hashCode() {
+        int hash = 17;
+        if (id != 0) {
+            hash = hash + id.hashCode();
+        }
+        hash = hash * 31;
+
+        if (name != null) {
+            hash = hash + name.hashCode();
+        }
+        hash = hash * 31;
+
+        if (description != null) {
+            hash = hash + description.hashCode();
+        }
+        hash = hash * 31;
+
+        if (status != null) {
+            hash = hash + status.hashCode();
+        }
+        return hash;
     }
-    public void setDescription(String description) {
-        this.description = description;
-    }
-    void setStatus(String status) {
-        this.status = status;
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Task task = (Task) obj;
+        return Objects.equals(id, task.id) &&
+                Objects.equals(name, task.name) &&
+                Objects.equals(description, task.description) &&
+                Objects.equals(status, task.status);
     }
 
     @Override
     public String toString() {
-        return "ID задачи model.Task=\"" + id + "\", Название задачи=\"" + name + "\", Описание=\"" + description
-                + "\", Статус=\"" + status + "\"";
+        return "Задача{" +
+                "Название задачи='" + name + '\'' +
+                ", Описание задачи='" + description + '\'' +
+                ", Статус задачи=" + status +
+                ", ID задачи=" + id +
+                '}';
     }
+
+
 }
