@@ -27,7 +27,7 @@ public interface TaskManager {
 
     Object updateSubTask(SubTask subTask);
 
-    Object updateEpic(Epic epic);
+    void updateEpic(Epic epic);
 
     String subTasksInEpicToString(Epic epic);
 

@@ -119,17 +119,29 @@ public Object updateTask(Task update) {
         return null;
     }
     // до сюда исправить
-        @Override
-        public Object updateEpic(Epic update) {
-            if (epic.containsKey(update.getId())) {
-                Epic epics = epic.get(update.getId());
-                update.setStatus(epics.getStatus());
-                epic.put(update.getId(), update);
-                System.out.println("Обновление выполнено");
-                return update;
-            }
-            return null;
+    @Override
+
+    public void updateEpic(Epic epic) {
+
+        Epic pastObjEpic = this.epic.get(epic.getId());
+
+        List<Integer> subTasks = pastObjEpic.getSubTasks();
+
+        epic.setSubTasks(subTasks);
+
+        this.epic.put(epic.getId(), epic);
+
+        for (Integer value : epic.getSubTasks()) {
+
+            SubTask subTask = this.subTask.get(value);
+
+            subTask.setEpic(epic);
+
         }
+
+        epic.setStatus(calculateEpicStatus(epic));
+
+    }
 
     @Override
     public String subTasksInEpicToString(Epic epic) {
