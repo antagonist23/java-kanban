@@ -23,11 +23,11 @@ public interface TaskManager {
 
     Epic getEpic(Integer id);
 
-    void updateTask(Task task, Integer id, TaskStatus status);
+    Object updateTask(Task task);
 
-    void updateSubTask(SubTask subTask, Integer id, TaskStatus status);
+    Object updateSubTask(SubTask subTask);
 
-    void updateEpic(Epic epic);
+    Object updateEpic(Epic epic);
 
     String subTasksInEpicToString(Epic epic);
 

@@ -64,55 +64,72 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Task getTask(Integer id) {
-        Map<Integer, Task> tempMap = new HashMap<>();
-        historyManager.add(task.get(id));
-        tempMap.put(id, task.get(id));
-        return tempMap.put(id, task.get(id));
+        if (task.containsKey(id)) {
+            historyManager.add(task.get(id));
+            return task.get(id);
+        } else {
+            return null;
+        }
     }
 
     @Override
     public SubTask getSubTask(Integer id) {
-        Map<Integer, SubTask> tempMap = new HashMap<>();
-        historyManager.add(subTask.get(id));
-        tempMap.put(id, subTask.get(id));
-        return tempMap.put(id, subTask.get(id));
+        if (subTask.containsKey(id)) {
+            historyManager.add(subTask.get(id));
+            return subTask.get(id);
+        } else {
+            return null;
+        }
     }
 
     @Override
     public Epic getEpic(Integer id) {
-        Map<Integer, Epic> tempMap = new HashMap<>();
-        historyManager.add(epic.get(id));
-        tempMap.put(id, epic.get(id));
-        return tempMap.put(id, epic.get(id));
-    }
-
-    @Override
-    public void updateTask(Task task, Integer id, TaskStatus status) {
-        task.setStatus(status);
-        task.setId(id);
-        this.task.put(id, task);
-    }
-
-    @Override
-    public void updateSubTask(SubTask subTask, Integer id, TaskStatus status) {
-        subTask.setStatus(status);
-        subTask.setId(id);
-        this.subTask.put(id, subTask);
-        subTask.getEpic().setStatus(calculateEpicStatus(subTask.getEpic()));
-    }
-
-    @Override
-    public void updateEpic(Epic epic) {
-        Epic pastObjEpic = this.epic.get(epic.getId());
-        List<Integer> subTasks = pastObjEpic.getSubTasks();
-        epic.setSubTasks(subTasks);
-        this.epic.put(epic.getId(), epic);
-        for (Integer value : epic.getSubTasks()) {
-            SubTask subTask = this.subTask.get(value);
-            subTask.setEpic(epic);
+        if (epic.containsKey(id)) {
+            historyManager.add(epic.get(id));
+            return epic.get(id);
+        } else {
+            return null;
         }
-        epic.setStatus(calculateEpicStatus(epic));
     }
+// тут надо исправить
+@Override
+public Object updateTask(Task update) {
+    if (task.isEmpty()) {
+        System.out.println("Список задач пуст");
+    } else if (task.containsKey(update.getId())) {
+        task.put(update.getId(), update);
+        System.out.println("Обновление выполнено");
+        return update;
+    } else {
+        System.out.println("Такой задачи нет");
+    }
+    return null;
+}
+    @Override
+    public Object updateSubTask(SubTask update) {
+        if (subTask.isEmpty()) {
+            System.out.println("Список подзадач пуст");
+        } else if (subTask.containsKey(update.getId())) {
+            task.put(update.getId(), update);
+            System.out.println("Обновление выполнено");
+            return update;
+        } else {
+            System.out.println("Такой подзадачи нет");
+        }
+        return null;
+    }
+    // до сюда исправить
+        @Override
+        public Object updateEpic(Epic update) {
+            if (epic.containsKey(update.getId())) {
+                Epic epics = epic.get(update.getId());
+                update.setStatus(epics.getStatus());
+                epic.put(update.getId(), update);
+                System.out.println("Обновление выполнено");
+                return update;
+            }
+            return null;
+        }
 
     @Override
     public String subTasksInEpicToString(Epic epic) {

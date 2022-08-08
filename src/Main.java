@@ -1,7 +1,6 @@
 import model.Epic;
 import model.SubTask;
 import model.Task;
-import model.TaskStatus;
 import service.Managers;
 import service.TaskManager;
 
@@ -65,17 +64,17 @@ public class Main {
         System.out.println();
         System.out.println("- Обновление задачи/подзадачи/эпика -");
         task2 = new Task(task2.getName(), task2.getDescription());
-        taskManager.updateTask(task2, 2, TaskStatus.DONE);
+        taskManager.updateTask(task2);
         task3 = new Task(task3.getName(), task3.getDescription());
-        taskManager.updateTask(task3, 3, TaskStatus.IN_PROGRESS);
+        taskManager.updateTask(task3);
         subTask2 = new SubTask(subTask2.getName(), subTask2.getDescription(), epic1);
-        taskManager.updateSubTask(subTask2, 9, TaskStatus.DONE);
+        taskManager.updateSubTask(subTask2);
         subTask4 = new SubTask(subTask4.getName(), subTask4.getDescription(), epic2);
-        taskManager.updateSubTask(subTask4, 11, TaskStatus.DONE);
+        taskManager.updateSubTask(subTask4);
         subTask5 = new SubTask(subTask5.getName(), subTask5.getDescription(), epic2);
-        taskManager.updateSubTask(subTask5, 12, TaskStatus.DONE);
+        taskManager.updateSubTask(subTask5);
         subTask6 = new SubTask(subTask6.getName(), subTask6.getDescription(), epic2);
-        taskManager.updateSubTask(subTask6, 13, TaskStatus.DONE);
+        taskManager.updateSubTask(subTask6);
         epic2 = new Epic(epic2.getId(), "Эпик №2", "Выехать с парковки"); // В эпике статус вручную не меняется.
         taskManager.updateEpic(epic2);
         taskManager.printAllTasks();
