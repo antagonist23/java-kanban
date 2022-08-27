@@ -3,42 +3,40 @@ package service;
 import model.Epic;
 import model.SubTask;
 import model.Task;
-import model.TaskStatus;
 
-import java.util.List;
+import java.util.ArrayList;
+import java.util.HashMap;
 
+//Интерфейс для управления задачами
 public interface TaskManager {
+    //Получение списка всех задач (Эпики + Задачи + Подзадачи).
+    HashMap<Integer, Task> getAllTasksList();
 
-    void printAllTasks();
+    //Получение списка задач (Эпики + Задачи).
+    ArrayList<Task> getTasksList();
 
-    void addTask(Task task);
+    //Получение списка всех Эпиков.
+    ArrayList<Task> getEpics();
 
-    void addEpic(Epic epic);
+    //Получение списка всех подзадач определённого эпика.
+    ArrayList<SubTask> getSubTasks(Epic epic);
 
-    void addSubTask(SubTask subTask);
+    //Получение задачи по идентификатору.
+    Task getTask(int num);
 
-    Task getTask(Integer id);
+    //Добавление новой Задачи, Эпика и Подзадачи. Сам объект должен передаваться в качестве параметра.
+    void addTask(Task newTask);
 
-    SubTask getSubTask(Integer id);
+    //Обновление задачи любого типа по идентификатору. Новая версия объекта передаётся в виде параметра.
+    void updateTask(Task newTask);
 
-    Epic getEpic(Integer id);
+    //Удаление ранее добавленных задач — всех и по идентификатору.
+    void delTask(Integer num);
 
-    Object updateTask(Task task);
+    //Формирование идентификатора задачи
+    int calcNewNum();
 
-    Object updateSubTask(SubTask subTask);
-
-    void updateEpic(Epic epic);
-
-    String subTasksInEpicToString(Epic epic);
-
-    void deleteTask(Integer id);
-
-    void deleteSubTask(Integer id);
-
-    void deleteEpic(Integer id);
-
-    void deleteAllTasks();
-
-    List<Task> getHistory();
-
+    //Возвращает последние 10 просмотренных задач.
+    // (полученных через getTask(), изменённых updateTask() или удалённых delTask()).
+    ArrayList<Task> history();
 }

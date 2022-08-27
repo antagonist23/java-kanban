@@ -1,66 +1,35 @@
 package model;
 
-import java.util.Objects;
-
+//Класс подзадачи
 public class SubTask extends Task {
-    private Epic epic;
+    Epic epic;    //Ссылка на родительский Эпик
 
-    public SubTask(String name, String description, Epic epic) { // Конструктор для создания подзадачи
-        super(name, description);
+    //Конструктор
+    public SubTask(Integer num, String name, String details, Epic epic) {
+        super(num, name, details, TaskType.SUBTASK);
+
         this.epic = epic;
     }
 
+    public SubTask(String name, String details, Epic epic) {
+        super(name, details, TaskType.SUBTASK);
+
+        this.epic = epic;
+    }
+
+    //Получение Эпика
     public Epic getEpic() {
         return epic;
     }
 
+    //Задание Эпика
     public void setEpic(Epic epic) {
         this.epic = epic;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 17;
-        if (super.getId() != 0) {
-            hash = hash + super.getId().hashCode();
-        }
-        hash = hash * 31;
-
-        if (super.getName() != null) {
-            hash = hash + super.getName().hashCode();
-        }
-        hash = hash * 31;
-
-        if (super.getDescription() != null) {
-            hash = hash + super.getDescription().hashCode();
-        }
-        hash = hash * 31;
-
-        if (super.getStatus() != null) {
-            hash = hash + super.getStatus().hashCode();
-        }
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
-        SubTask subTask = (SubTask) obj;
-        return Objects.equals(super.getId(), subTask.getId()) &&
-                Objects.equals(super.getName(), subTask.getName()) &&
-                Objects.equals(super.getDescription(), subTask.getDescription()) &&
-                Objects.equals(super.getStatus(), subTask.getStatus());
-    }
-
+    //Отображение задачи
     @Override
     public String toString() {
-        return "Подзадача{" +
-                "Название подзадачи='" + super.getName() + '\'' +
-                ", Описание подзадачи='" + super.getDescription() + '\'' +
-                ", Статус подзадачи=" + super.getStatus() +
-                ", ID подзадачи=" + super.getId() +
-                ", Входит в эпик='" + epic.getName() + '\'' +
-                '}';
+        return getNum() + "," + getType() + "," + getName() + "," + getStatus() + "," + getDetails() + "," + getEpic().getNum();
     }
 }

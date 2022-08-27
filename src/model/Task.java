@@ -1,93 +1,90 @@
 package model;
 
-import java.util.Objects;
+import model.TaskStatus;
+import model.TaskType;
 
+//Основной класс задачи
 public class Task {
-    private Integer id;
-    private String name;
-    private String description;
-    private TaskStatus status;
+    private String name;        //Название
+    private String details;     //Описание/дополнение
+    private Integer num;        //Уникальный идентификационный номер задачи
+    private TaskStatus status;  //Статус задачи
+    private TaskType taskType;//Тмп задачи
 
-    public Task(String name, String description) {
+    //Конструктор класса
+    public Task(Integer num, String name, String details) {
+        this.num = num;
         this.name = name;
-        this.description = description;
-        this.status = TaskStatus.NEW;
+        this.details = details;
+        status = TaskStatus.NEW;
+        this.taskType = TaskType.TASK;
     }
 
-    public Task(Integer id, String name, String description) {
-        this.id = id;
+    //Конструктор класса
+    public Task(Integer num, String name, String details, TaskType taskType) {
+        this.num = num;
         this.name = name;
-        this.description = description;
+        this.details = details;
+        status = TaskStatus.NEW;
+        this.taskType = taskType;
     }
 
-    public Integer getId() {
-        return id;
+    //Конструктор
+    public Task(String name, String details, TaskType taskType) {
+        this.name = name;
+        this.details = details;
+        status = TaskStatus.NEW;
+        this.taskType = taskType;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public TaskStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(TaskStatus status) {
-        this.status = status;
-    }
-
+    //Получение имени задачи
     public String getName() {
         return name;
     }
 
-    public String getDescription() {
-        return description;
+    //Задание имени задачи
+    public void setName(String name) {
+        this.name = name;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 17;
-        if (id != 0) {
-            hash = hash + id.hashCode();
-        }
-        hash = hash * 31;
-
-        if (name != null) {
-            hash = hash + name.hashCode();
-        }
-        hash = hash * 31;
-
-        if (description != null) {
-            hash = hash + description.hashCode();
-        }
-        hash = hash * 31;
-
-        if (status != null) {
-            hash = hash + status.hashCode();
-        }
-        return hash;
+    //Получение описания
+    public String getDetails() {
+        return details;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
-        Task task = (Task) obj;
-        return Objects.equals(id, task.id) &&
-                Objects.equals(name, task.name) &&
-                Objects.equals(description, task.description) &&
-                Objects.equals(status, task.status);
+    //Задание описания
+    public void setDetails(String details) {
+        this.details = details;
     }
 
+    //Получние номера задачи
+    public Integer getNum() {
+        return num;
+    }
+
+    //Задание номера задачи
+    public void setNum(Integer num) {
+        this.num = num;
+    }
+
+    //Получение статуса
+    public TaskStatus getStatus() {
+        return status;
+    }
+
+    //Задание статуса
+    public void setStatus(TaskStatus status) {
+        this.status = status;
+    }
+
+    //Получение типа задачи
+    public TaskType getType(){
+        return taskType;
+    }
+
+    //Отображение задачи
     @Override
     public String toString() {
-        return "Задача{" +
-                "Название задачи='" + name + '\'' +
-                ", Описание задачи='" + description + '\'' +
-                ", Статус задачи=" + status +
-                ", ID задачи=" + id +
-                '}';
+        return getNum() + "," + getType() + "," + getName() + "," + getStatus() + "," + getDetails() + ",";
     }
-
-
 }

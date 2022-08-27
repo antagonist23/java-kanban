@@ -1,109 +1,102 @@
 import model.Epic;
 import model.SubTask;
 import model.Task;
+import model.TaskStatus;
 import service.Managers;
 import service.TaskManager;
 
+//Основной класс для запуска приложения
 public class Main {
     public static void main(String[] args) {
-        TaskManager taskManager = Managers.getDefault();
+        TaskManager manager = Managers.getDefault();    //Получение менеджера задач
 
-        System.out.println("- Получение списка всех задач -");
-        taskManager.printAllTasks();
+        Epic epic;
+        Task task;
+        SubTask subTask;
 
-        System.out.println();
-        System.out.println("- Ввод задач/подзадач/эпиков -");
+        //Формирование двух отдельных Задач
+        task = new Task(100,"Задача 1", "Пояснение к задаче 1");
+        manager.addTask(task);
 
-        Task task1 = new Task("Задача №1", "Проверить уровень масла");
-        Task task2 = new Task("Задача №2", "Проверить давление в шинах");
-        Task task3 = new Task("Задача №3", "Проверить состояние стеклоочистителей");
-        Task task4 = new Task("Задача №4", "Проверить отсутствие течей жидкостей");
-        Epic epic1 = new Epic("Эпик №1", "Завести автомобиль");
-        Epic epic2 = new Epic("Эпик №2", "Выехать со двора");
-        Epic epic3 = new Epic("Эпик №3", "Тестируем статус пустого эпика");
-        SubTask subTask1 = new SubTask("Подзадача №1", "Вставить ключ в замок зажигания", epic1);
-        SubTask subTask2 = new SubTask("Подзадача №2", "Установить коробку передач на нейтраль", epic1);
-        SubTask subTask3 = new SubTask("Подзадача №3", "Повернуть ключ в замке зажигания", epic1);
-        SubTask subTask4 = new SubTask("Подзадача №4", "Пристегнуть ремень безопасности", epic2);
-        SubTask subTask5 = new SubTask("Подзадача №5", "Открыть ворота парковки", epic2);
-        SubTask subTask6 = new SubTask("Подзадача №6", "Установить коробку передач на первую передачу", epic2);
-        SubTask subTask7 = new SubTask("Подзадача №7", "Отпустить сцепление", epic2);
-        taskManager.addTask(task1);
-        taskManager.addTask(task2);
-        taskManager.addTask(task3);
-        taskManager.addTask(task4);
-        taskManager.addEpic(epic1);
-        taskManager.addEpic(epic2);
-        taskManager.addEpic(epic3);
-        taskManager.addSubTask(subTask1);
-        taskManager.addSubTask(subTask2);
-        taskManager.addSubTask(subTask3);
-        taskManager.addSubTask(subTask4);
-        taskManager.addSubTask(subTask5);
-        taskManager.addSubTask(subTask6);
-        taskManager.addSubTask(subTask7);
-        System.out.println("- Задачи/подзадачи/эпики сохранены -");
+        task = new Task(110,"Задача 2", "Пояснение к задаче 2");
+        task.setStatus(TaskStatus.IN_PROGRESS);
+        manager.addTask(task);
 
-        System.out.println();
-        System.out.println("- Получение списка всех задач -");
-        taskManager.printAllTasks();
+        //Формирование первого Эпика с тремя подзадачами
+        epic = new Epic(200,"Переезд", "Телефон перевозчика: +123 456 78 90");
+        manager.addTask(epic);
 
-        System.out.println();
-        System.out.println("- Получение задачи/подзадачи/эпика по идентификатору -");
-        System.out.println(taskManager.getTask(task2.getId()));
-        System.out.println(taskManager.getTask(task4.getId()));
-        System.out.println(taskManager.getEpic(epic2.getId()));
-        System.out.println(taskManager.getSubTask(subTask1.getId()));
-        System.out.println(taskManager.getSubTask(subTask5.getId()));
-        System.out.println(taskManager.getSubTask(subTask6.getId()));
+        //Подзадачи к первому Эпику
+        subTask = new SubTask("Собрать коробки", "Коробки на чердаке", epic);
+        manager.addTask(subTask);
 
-        System.out.println();
-        System.out.println("- Вывод истории просмотра задач -");
-        taskManager.getHistory().forEach(System.out::println);
+        subTask = new SubTask("Упаковать кошку", "Переноска за дверью", epic);
+        manager.addTask(subTask);
 
-        System.out.println();
-        System.out.println("- Обновление задачи/подзадачи/эпика -");
-        task2 = new Task(task2.getName(), task2.getDescription());
-        taskManager.updateTask(task2);
-        task3 = new Task(task3.getName(), task3.getDescription());
-        taskManager.updateTask(task3);
-        subTask2 = new SubTask(subTask2.getName(), subTask2.getDescription(), epic1);
-        taskManager.updateSubTask(subTask2);
-        subTask4 = new SubTask(subTask4.getName(), subTask4.getDescription(), epic2);
-        taskManager.updateSubTask(subTask4);
-        subTask5 = new SubTask(subTask5.getName(), subTask5.getDescription(), epic2);
-        taskManager.updateSubTask(subTask5);
-        subTask6 = new SubTask(subTask6.getName(), subTask6.getDescription(), epic2);
-        taskManager.updateSubTask(subTask6);
-        epic2 = new Epic(epic2.getId(), "Эпик №2", "Выехать с парковки"); // В эпике статус вручную не меняется.
-        taskManager.updateEpic(epic2);
-        taskManager.printAllTasks();
+        subTask = new SubTask("Сказать слова прощания", "Можно на английском", epic);
+        manager.addTask(subTask);
 
-        System.out.println();
-        System.out.println("- Получение списка всех подзадач определённого эпика -");
-        System.out.println(taskManager.subTasksInEpicToString(epic2));
+        //Формирование втрого Эпика (без подзадач)
+        epic = new Epic(300,"Эпик 2", "Эпик без подзадач");
+        manager.addTask(epic);
 
-        System.out.println();
-        System.out.println("- Удаляем подзадачу №7 со статусом NEW в эпике №2. Проверяем, что эпик перешёл в статус DONE -");
-        taskManager.deleteSubTask(subTask7.getId());
-        System.out.println(taskManager.getEpic(epic2.getId()));
+        //Обращение к задачам
+        System.out.println("\n----------Первое обращение к задачам (200, 1, 110, 300, 100):");
+        task = manager.getTask(200);
+        task = manager.getTask(1);
+        task = manager.getTask(110);
+        task = manager.getTask(300);
+        task = manager.getTask(100);
 
-        System.out.println();
-        System.out.println("- Удаление задачи/подзадачи/эпика по идентификатору. Вывод списка оставшихся задач -");
-        taskManager.deleteTask(task2.getId());
-        taskManager.deleteTask(task3.getId());
-        taskManager.deleteSubTask(subTask1.getId());
-        taskManager.deleteSubTask(subTask5.getId());
-        taskManager.deleteEpic(epic2.getId());
-        taskManager.printAllTasks();
+        //Просмотр истории обращения к задачам через общий метод getTask()
+        System.out.println("Список обращений к задачам:");
+        for (Task taskFor : manager.history())
+            System.out.println("#" + taskFor.getNum() + " - " + taskFor.getName() + "(" + taskFor.getStatus() + ")");
 
-        System.out.println();
-        System.out.println("- Удаление списка задач из трекера -");
-        taskManager.deleteAllTasks();
+        //Обращение к задачам
+        System.out.println("\n----------Второе обращение к задачам (300, 2, 100, 200, 110):");
+        task = manager.getTask(300);
+        task = manager.getTask(2);
+        task = manager.getTask(100);
+        task = manager.getTask(200);
+        task = manager.getTask(110);
 
-        System.out.println();
-        System.out.println("- Получение списка всех задач -");
-        taskManager.printAllTasks();
+        //Просмотр истории обращения к задачам через общий метод getTask()
+        System.out.println("Список обращений к задачам:");
+        for (Task taskFor : manager.history())
+            System.out.println("#" + taskFor.getNum() + " - " + taskFor.getName() + "(" + taskFor.getStatus() + ")");
+
+        //Обращение к задачам
+        System.out.println("\n----------Третье обращение к задачам (100, 3, 110, 200, 300):");
+        task = manager.getTask(100);
+        task = manager.getTask(3);
+        task = manager.getTask(110);
+        task = manager.getTask(200);
+        task = manager.getTask(300);
+
+        //Просмотр истории обращения к задачам через общий метод getTask()
+        System.out.println("Список обращений к задачам:");
+        for (Task taskFor : manager.history())
+            System.out.println("#" + taskFor.getNum() + " - " + taskFor.getName() + "(" + taskFor.getStatus() + ")");
+
+        System.out.println("\nПри обращении задача вставляется/переносится в конец истории.");
+        System.out.println("Соответственно, задачи к которым не было обращений постепенно смещаются в начало.");
+
+        //Удаление Задачи
+        manager.delTask(110);
+
+        //Просмотр истории обращения к задачам через общий метод getTask()
+        System.out.println("\nСписок обращений к задачам после удаления задачи #110:");
+        for (Task taskFor : manager.history())
+            System.out.println("#" + taskFor.getNum() + " - " + taskFor.getName() + "(" + taskFor.getStatus() + ")");
+
+        //Удаление Эпика
+        manager.delTask(200);
+
+        //Просмотр истории обращения к задачам через общий метод getTask()
+        System.out.println("\nСписок обращений к задачам после удаления Эпика #200:");
+        for (Task taskFor : manager.history())
+            System.out.println("#" + taskFor.getNum() + " - " + taskFor.getName() + "(" + taskFor.getStatus() + ")");
 
     }
 }

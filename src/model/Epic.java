@@ -1,78 +1,49 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
+//Класс Эпика (Задачи с Подзадачами)
 public class Epic extends Task {
-    private List<Integer> subTasks;
+    private ArrayList<SubTask> subTasks;    //Список подзадач
 
-    public Epic(String name, String description) {
-        super(name, description);
-        this.subTasks = new ArrayList<>();
+    //Конструктор
+    public Epic(Integer num, String name, String details) {
+        super(num, name, details, TaskType.EPIC);
+
+        subTasks = new ArrayList<>();
     }
 
-    public Epic(Integer id, String name, String description ) {
-        super(id, name, description);
+    //Получение статуса Эпика
+    public TaskStatus getStatus(){
+        TaskStatus result;
+        int statusSum = TaskStatus.NEW.ordinal();
+
+        if (subTasks.size() == 0){  //Если нет подзадач
+            result = TaskStatus.NEW;  //Для пустого эпика вернуть статус NEW
+        } else {  //Статус непустых эпиков определяется статусами подзадач
+            for (SubTask subTask : subTasks)
+                statusSum += subTask.getStatus().ordinal();
+
+            if (statusSum == TaskStatus.NEW.ordinal()){ //Все подзадачи новые
+                result = TaskStatus.NEW;
+            } else if (statusSum == (TaskStatus.DONE.ordinal() * subTasks.size())){  //Все подзадачи выполнены
+                result = TaskStatus.DONE;
+            } else {
+                result = TaskStatus.IN_PROGRESS;
+            }
+        }
+
+        return result;
     }
 
-    public List<Integer> getSubTasks() {
+    //Получение списка всех подзадач
+    public ArrayList<SubTask> getSubTasks() {
         return subTasks;
     }
 
-    public void setSubTasks(List<Integer> subTasks) {
-        this.subTasks = subTasks;
-    }
-
-    public void setSubTaskId(int subTaskId) {
-        subTasks.add(subTaskId);
-    }
-
-
-    @Override
-    public int hashCode() {
-        int hash = 17;
-        if (super.getId() != 0) {
-            hash = hash + super.getId().hashCode();
-        }
-        hash = hash * 31;
-
-        if (super.getName() != null) {
-            hash = hash + super.getName().hashCode();
-        }
-        hash = hash * 31;
-
-        if (super.getDescription() != null) {
-            hash = hash + super.getDescription().hashCode();
-        }
-        hash = hash * 31;
-
-        if (super.getStatus() != null) {
-            hash = hash + super.getStatus().hashCode();
-        }
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
-        Epic epic = (Epic) obj;
-        return Objects.equals(super.getId(), epic.getId()) &&
-                Objects.equals(super.getName(), epic.getName()) &&
-                Objects.equals(super.getDescription(), epic.getDescription()) &&
-                Objects.equals(super.getStatus(), epic.getStatus());
-    }
-
+    //Отображение Эпика
     @Override
     public String toString() {
-        return "Эпик{" +
-                "Название эпика='" + super.getName() + '\'' +
-                ", Описание эпика='" + super.getDescription() + '\'' +
-                ", Статус эпика=" + super.getStatus() +
-                ", ID эпика=" + super.getId() +
-                '}';
+        return getNum() + "," + getType() + "," + getName() + "," + getStatus() + "," + getDetails() + ",";
     }
-
-
 }
